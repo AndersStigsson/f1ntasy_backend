@@ -1,0 +1,75 @@
+import DriverDaoDB from '@daos/Database/DriverDaoDB';
+import { IUser } from '@entities/User';
+import logger from '@shared/Logger';
+
+
+
+export interface IUserDao {
+    getOne: (username: string) => Promise<IUser | null>;
+    getAll: () => Promise<IUser[]>;
+    add: (user: IUser) => Promise<void>;
+    update: (user: IUser) => Promise<void>;
+    delete: (id: number) => Promise<void>;
+}
+
+class UserDao extends DriverDaoDB implements IUserDao {
+
+
+    /**
+     * @param email
+     */
+    public async getOne(username: string): Promise<IUser | null> {
+        const db = await super.openDb();
+        let conn;
+        try {
+            conn = await db.getConnection();
+            const rows = await conn.query("SELECT password from F1ntasy.users where username = (?)", [username]);
+            return rows;
+          } catch (err) {
+            throw err;
+          } finally {
+            if (conn) return conn.end();
+          }
+    }
+
+
+    /**
+     *
+     */
+    public getAll(): Promise<IUser[]> {
+         // TODO
+        return Promise.resolve([]);
+    }
+
+
+    /**
+     *
+     * @param user
+     */
+    public async add(user: IUser): Promise<void> {
+         // TODO
+        return Promise.resolve(undefined);
+    }
+
+
+    /**
+     *
+     * @param user
+     */
+    public async update(user: IUser): Promise<void> {
+         // TODO
+        return Promise.resolve(undefined);
+    }
+
+
+    /**
+     *
+     * @param id
+     */
+    public async delete(id: number): Promise<void> {
+         // TODO
+        return Promise.resolve(undefined);
+    }
+}
+
+export default UserDao;
