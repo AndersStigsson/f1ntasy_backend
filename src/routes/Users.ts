@@ -75,9 +75,9 @@ router.get('/:id', async (req: IRequest, res: Response) => {
 
 router.post('/login', async (req: IRequest, res: Response) => {
     const {username, password} = req.body;
-    const pass = await userDao.getOne(username);
-    logger.info(`Username is ${username} and password is ${password}`);
-    if(password === JSON.parse(JSON.stringify(pass))[0].password){
+    var pass = await userDao.getOne(username);
+    logger.info(`Username is ${username} and password is ${password} whereas pass is ${pass}`);
+    if(password === String(pass)){
         return res.status(OK).json({"loggedIn": true});
     } else {
         return res.status(OK).json({"loggedIn": false});

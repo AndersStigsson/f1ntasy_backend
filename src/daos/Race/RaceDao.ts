@@ -49,6 +49,34 @@ class RaceDao extends DriverDaoDB implements IRaceDao {
           }
     }
 
+    public async getFinished(): Promise<IDriver[]> {
+      const db = await super.openDb();
+      let conn;
+      try {
+        conn = await db.getConnection();
+        const rows = await conn.query("SELECT * from F1ntasy.races where DATE(races.date) <= DATE(NOW())");
+        return rows;
+      } catch (err) {
+        throw err;
+      } finally {
+        if (conn) conn.end();
+      }
+    }
+
+    public async getNext(): Promise<IDriver[]> {
+      // TODO
+     const db = await super.openDb();
+     let conn;
+     try {
+         conn = await db.getConnection();
+         const rows = await conn.query("SELECT * from F1ntasy.races where DATE(races.date) >= DATE(NOW()) LIMIT 1");
+         return rows;
+       } catch (err) {
+         throw err;
+       } finally {
+         if (conn) conn.end();
+       }
+ }
 }
 
 export default RaceDao;

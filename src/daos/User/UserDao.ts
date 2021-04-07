@@ -5,7 +5,7 @@ import logger from '@shared/Logger';
 
 
 export interface IUserDao {
-    getOne: (username: string) => Promise<IUser | null>;
+    getOne: (username: string) => Promise<IUser | string | null>;
     getAll: () => Promise<IUser[]>;
     add: (user: IUser) => Promise<void>;
     update: (user: IUser) => Promise<void>;
@@ -18,17 +18,18 @@ class UserDao extends DriverDaoDB implements IUserDao {
     /**
      * @param email
      */
-    public async getOne(username: string): Promise<IUser | null> {
+    public async getOne(username: string): Promise<IUser | string | null> {
         const db = await super.openDb();
         let conn;
         try {
             conn = await db.getConnection();
             const rows = await conn.query("SELECT password from F1ntasy.users where username = (?)", [username]);
-            return rows;
+            
+            return rows[0].password;
           } catch (err) {
             throw err;
           } finally {
-            if (conn) return conn.end();
+            if (conn) conn.end();
           }
     }
 

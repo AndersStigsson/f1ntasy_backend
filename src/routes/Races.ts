@@ -20,13 +20,18 @@ router.get('/all', async (req: Request, res: Response) => {
     return res.status(OK).json({races});
 });
 
+
+
+router.get('/next', async (req: Request, res: Response) => {
+    const race = await raceDao.getNext();
+    return res.status(OK).json({race});
+})
+
 router.get('/:id', async (req: Request, res: Response) => {
     const { id } = req.params;
     const race = await raceDao.getOne(parseInt(id));
     return res.status(OK).json({race});
 });
-
-
 
 /******************************************************************************
  *                                     Export
