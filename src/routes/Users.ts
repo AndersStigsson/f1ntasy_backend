@@ -4,10 +4,13 @@ import { Request, Response, Router } from 'express';
 import UserDao from '@daos/User/UserDao';
 import { paramMissingError, IRequest } from '@shared/constants';
 import logger from '@shared/Logger';
+import { createHmac } from 'crypto';
 
 const router = Router();
 const userDao = new UserDao();
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
+var tokens = {};
+const secret = "Formula 1 Pirelli Gran Premio Del Made In Italy E Dell'emilia Romagna 2021"
 
 
 
@@ -76,9 +79,14 @@ router.get('/:id', async (req: IRequest, res: Response) => {
 router.post('/login', async (req: IRequest, res: Response) => {
     const {username, password} = req.body;
     var pass = await userDao.getOne(username);
+    var id = await userDao.getIdByUsername(username);
     logger.info(`Username is ${username} and password is ${password} whereas pass is ${pass}`);
     if(password === String(pass)){
-        return res.status(OK).json({"loggedIn": true});
+        const hash = createHmac('sha256', secret)
+               .update(username + "Autodromo Enzo e Dino Ferrari")
+               .digest('hex');
+        logger.info(`ID has value: ${id}`);
+        return res.status(OK).json({"loggedIn": true, "token": hash, "user": id});
     } else {
         return res.status(OK).json({"loggedIn": false});
     }

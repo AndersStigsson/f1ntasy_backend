@@ -54,7 +54,7 @@ class RaceDao extends DriverDaoDB implements IRaceDao {
       let conn;
       try {
         conn = await db.getConnection();
-        const rows = await conn.query("SELECT * from F1ntasy.races where DATE(races.date) <= DATE(NOW())");
+        const rows = await conn.query("SELECT * from F1ntasy.races where races.date < NOW()");
         return rows;
       } catch (err) {
         throw err;
@@ -69,7 +69,7 @@ class RaceDao extends DriverDaoDB implements IRaceDao {
      let conn;
      try {
          conn = await db.getConnection();
-         const rows = await conn.query("SELECT * from F1ntasy.races where DATE(races.date) >= DATE(NOW()) LIMIT 1");
+         const rows = await conn.query("SELECT * from F1ntasy.races where races.date > NOW() LIMIT 1");
          return rows;
        } catch (err) {
          throw err;
