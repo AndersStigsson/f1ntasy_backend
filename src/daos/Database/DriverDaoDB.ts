@@ -14,7 +14,7 @@ class DriverDaoDB {
     private readonly dbFilePath = 'src/daos/MockDb/MockDb.json';
 
     private pool = mariadb.createPool({
-        host: '172.19.0.2', 
+        host: '127.0.0.1', 
         user:'root', 
         password: 'ecclestone',
         connectionLimit: 2,
