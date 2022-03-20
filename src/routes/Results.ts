@@ -106,7 +106,7 @@ router.get("/race/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   const race = await resultDao.getByRace(parseInt(id));
   const result = await fetch(
-    `http://ergast.com/api/f1/2021/${parseInt(id)}/results.json`
+    `http://ergast.com/api/f1/2022/${parseInt(id)}/results.json`
   );
   const json = await result.json();
   var raceTest: any = race;
