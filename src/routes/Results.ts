@@ -30,7 +30,7 @@ router.get("/all", async (req: Request, res: Response) => {
   }
   for (var k = 1; k < races + 1; k++) {
     const tempvalue = await fetch(
-      `http://ergast.com/api/f1/2022/${k}/results.json`
+      `http://ergast.com/api/f1/2023/${k}/results.json`
     );
     const tempjson = await tempvalue.json();
 
@@ -106,7 +106,7 @@ router.get("/race/:id", async (req: Request, res: Response) => {
   const { id } = req.params;
   const race = await resultDao.getByRace(parseInt(id));
   const result = await fetch(
-    `http://ergast.com/api/f1/2022/${parseInt(id)}/results.json`
+    `http://ergast.com/api/f1/2023/${parseInt(id)}/results.json`
   );
   const json = await result.json();
   var raceTest: any = race;
